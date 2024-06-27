@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
+import SelectComponent from './SelectComponent';
 
 const LoginButtons = () => {
   return (
@@ -10,6 +11,8 @@ const LoginButtons = () => {
       <Button variant="contained" color="primary" component={Link} to="/teacher-screen">
         Teacher
       </Button>
+      <SelectComponent label = "Select your Name"/>
+      <SelectComponent label = "Select your Class"/>
       <Button variant="contained" color="primary" component={Link} to="/student-screen">
         Student
       </Button>
