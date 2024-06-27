@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginButtons from './components/LoginButtons';
+import TeacherScreen from './components/TeacherScreen';
+import StudentScreen from './components/StudentScreen';
 
-function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    fetch("http://localhost:8000/message")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message));
-  }, []);
+const App = () => {
 
   return (
-    <div className="App">
-      <h1>{message}</h1>
-    </div>
-  );
-}
+    <Router>
+      <div className="App">
 
-export default App
+        <Routes>
+        <Route path="/" element={ <LoginButtons/> } />
+        <Route path="/teacher-screen" element={ <TeacherScreen /> } />
+        <Route path="/student-screen" element={ <StudentScreen /> } />
+        </Routes>
+      </div>
+    </Router>
+  );
+};
+
+export default App;
+
