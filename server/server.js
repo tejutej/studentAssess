@@ -4,20 +4,24 @@ const cors = require('cors');
 
 const app = express();
 const port = 5000;
+const studentsData = require('./route/studentdata');
 
 app.use(cors());
 app.use(express.json());
-
-app.get("/message", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
-
 
 // Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/student-assess?authSource=admin", {
   // useNewUrlParser: true,
   // useUnifiedTopology: true, 
 });
+
+app.use('/studentsinfo', studentsData)
+
+app.get("/message", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
+
+
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
