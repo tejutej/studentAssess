@@ -1,15 +1,11 @@
-const express = require('express')
+const express = require("express");
 const {
   getStudentData,
   createStudentData,
   deleteStudentData,
-} = require('../controller/studentdata')
-const router = express.Router()
+} = require("../controller/studentdata");
+const router = express.Router();
 
-router
-  .route('/')
-  .get(getStudentData)
-  .post(createStudentData)
-  .delete(deleteStudentData)
-
-module.exports = router
+router.route("/").get(getStudentData).post(createStudentData);
+router.route("/:id").delete(deleteStudentData);
+module.exports = router;
