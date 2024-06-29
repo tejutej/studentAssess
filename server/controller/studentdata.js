@@ -24,7 +24,6 @@ exports.getStudentData = async (req, res, next) => {
       subjects: 1,
       _id: 0,
     }, {limit: 10});
-    let datainfo = studentInfo;
     
     res.status(200).json({
       studentInfo,
@@ -100,8 +99,8 @@ exports.createStudentData = async (req, res, next) => {
 // @access    Public
 exports.deleteStudentData = async (req, res, next) => {
   try {
-    const temp = await studentdata.findByIdAndDelete({
-      rollno: req.query.rollno,
+    const temp = await studentdata.findOneAndDelete({
+      id: req.params.id,
     });
     if (temp != null) {
       res.status(201).json({ message: "Template deleted" });

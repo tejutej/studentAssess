@@ -79,8 +79,15 @@ export default function StudentList() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+  const handleDeleteClick = async (id) => {
+      try {
+        const response = await axios.delete(`/studentsinfo/${id}`);
+        setRows(rows.filter((row) => row.id !== id));
+        return response.data.message;
+      } catch (error) {
+        console.log('Error deleting record');
+      }
+   
   };
 
   const handleCancelClick = (id) => () => {
@@ -182,7 +189,7 @@ export default function StudentList() {
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={() => handleDeleteClick(id)}
             color="inherit"
           />,
         ];
