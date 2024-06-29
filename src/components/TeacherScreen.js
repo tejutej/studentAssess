@@ -27,26 +27,10 @@ const TeacherScreen = () => {
 
   return (
     <div>
-      <h1>Login</h1>
-      <Button
-        variant="contained"
-        color="primary"
-        component={Link}
-        to="/teacher-screen"
-      >
-        Teacher
-      </Button>
-      { (
+      <h1>Teacher Screen</h1>
+     
         <SelectComponent label="Select your Name" options={data?.studentInfo} />
-      )}
-      <Button
-        variant="contained"
-        color="primary"
-        component={Link}
-        to="/student-screen"
-      >
-        Student
-      </Button>
+        <SelectComponent label="Select your Name" options={data?.studentInfo} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-const studentdata = require('../model/studentdata')
+const studentdata = require("../model/studentdata");
 
 // @desc      Get Templates
 // @route     GET /templates
@@ -6,112 +6,109 @@ const studentdata = require('../model/studentdata')
 
 exports.getStudentData = async (req, res, next) => {
   try {
-    const studentInfo = await studentdata.find(
-      { Id: req.query.Id },
-      {
-        rollno: 1,
+    const query = { }; 
+    const options = {
+      projection: {
+        id: 1,
         name: 1,
-      })
-      res.status(200).json({
-        studentInfo,
-      })
+        class: 1,
+        subjects: 1,
+        _id: 0,
+      }
+    };
+
+    const studentInfo = await studentdata.find(query, {
+      id: 1,
+      name: 1,
+      class: 1,
+      subjects: 1,
+      _id: 0,
+    }, {limit: 10});
+    let datainfo = studentInfo;
+    
+    res.status(200).json({
+      studentInfo,
+    });
   } catch (e) {
-    res.status(500).json({ message: e })
+    res.status(500).json({ message: e });
   }
-}
+};
 
 // @desc      POST studentdata
 // @route     POST /studentdata
 // @access    Public
 exports.createStudentData = async (req, res, next) => {
   try {
-    if (
-      req.body.reqBody.constructor === Object &&
-      !req.body.reqBody.hasOwnProperty('rollno') &&
-      !req.body.reqBody.hasOwnProperty('name')
-    ) {
+    if (!req.body.data.id && !req.body.data.name) {
       res.status(400).json({ message: "name or roll number is null" });
-      return 
-    }
-    else{
-
-    if (req.body.reqBody.dataMode === 'Create') {
-    
-        const nTemplate = new studentdata({
-          rollno: req.body.reqBody.rollno,
-          name: req.body.reqBody.name,
-          class: req.body.reqBody.class,
-          subjectmarks: req.body.reqBody.subjectmarks,
-          createdAt: Date.now,
-        })
-        const rTemplate = await nTemplate.save()
-        res.status(201).json({
-          rTemplate,
-        })
+      return;
+    } else {
       
-    } else if (req.body.reqBody.templateMode === 'Edit') {
-      /*app.put('/api/document/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const updateData = req.body;
+      if (req.body.mode === "create") {
 
-    const updatedDocument = await MyModel.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
-
-    if (!updatedDocument) {
-      return res.status(404).send({ error: 'Document not found' });
-    }
-
-    res.send(updatedDocument);
-  } catch (err) {
-    res.status(500).send({ error: 'An error occurred while updating the document' });
-  }
-});*/
-      let query = { rollno: req.body.reqBody.rollno }
-      req.body.reqBody.Updated = Date.now()
-      const sTemplate = await studentdata.findByIdAndUpdate(
-        query,
-        {
-          name: req.body.reqBody.name,
-          class: req.body.reqBody.class,
-          subjectmarks: req.body.reqBody.subjectmarks,
-          totalmarks: req.body.reqBody.totalmarks,
-          updatedAt: Date.now(),
-        },
-        {
-          new: true,
-          runValidators: true,
-          upsert: true,
-          setDefaultsOnInsert: true,
-        }
-      )
-
-      if (!sTemplate) {
-        return res.status(404).json({ message: 'Template not found' })
-      } else {
+        const newStudentData = new studentdata({
+          id: req.body.data.id,
+          name: req.body.data.name,
+          class: req.body.data.class,
+          subjects: Object.assign(
+            {},
+            { subject1: req.body.data.subject1, subject2: req.body.data.subject2 }
+          ),
+          createdAt: Date.now(),
+        });
+        const storeStudentData = await newStudentData.save();
         res.status(201).json({
-          sTemplate,
-        })
-        return
+          storeStudentData,
+        });
+      } else if (req.body.mode === "edit") {
+        let query =  {id: req.body.data.id};
+        const editStudentData = await studentdata.findOneAndUpdate(
+          query,
+          {
+            name: req.body.data.name,
+            class: req.body.data.class,
+            subjects: Object.assign(
+              {},
+              { subject1: req.body.data.subject1, subject2: req.body.data.subject2 }
+            ),
+            updatedAt: Date.now(),
+          },
+          {
+            new: true,
+            runValidators: true,
+            upsert: true,
+            setDefaultsOnInsert: true,
+          }
+        );
+        if (!editStudentData) {
+          return res.status(404).json({ message: "Student data not found" });
+        } else {
+          res.status(201).json({
+            editStudentData,
+          });
+          return;
+        }
       }
     }
-    }
   } catch (err) {
-    res.status(400).json({ message: err.message })
+    res.status(400).json({ message: err.message });
   }
-}
+};
 
 // @desc      DELETE studentdata
 // @route     DELETE /dy/template/id/
 // @access    Public
 exports.deleteStudentData = async (req, res, next) => {
   try {
-    const temp = await studentdata.findByIdAndDelete({ rollno: req.query.rollno })
+    const temp = await studentdata.findByIdAndDelete({
+      rollno: req.query.rollno,
+    });
     if (temp != null) {
-      res.status(201).json({ message: 'Template deleted' })
+      res.status(201).json({ message: "Template deleted" });
     } else {
-      res.status(404).json({ message: 'Template not found' })
+      res.status(404).json({ message: "Template not found" });
     }
   } catch (err) {
-    res.status(400).json({ message: err.message })
+    res.status(400).json({ message: err.message });
   }
-}
+};
