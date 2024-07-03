@@ -1,8 +1,5 @@
 const studentdata = require("../model/studentdata");
 
-// @desc      Get Templates
-// @route     GET /templates
-// @access    Public
 
 exports.getStudentData = async (req, res, next) => {
   try {

@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
+import React, {useContext} from 'react';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {StudentContext} from "../store/studentcontext"
 
-const ClassSelector = ({ classes, setClasses }) => {
-  const [newClass, setNewClass] = useState('');
-
-  const addClass = () => {
-    setClasses([...classes, newClass]);
-    setNewClass('');
-  };
-
+const ClassSelector = ({ options, label,  onSelectedOption }) => {
   return (
-    <div>
-      <select>
-        {classes.map((cls, index) => (
-          <option key={index} value={cls}>{cls}</option>
+    <FormControl fullWidth>
+      <InputLabel id="class-select-label">{label}</InputLabel>
+      <Select
+        labelId="class-select-label"
+        id="class-select"
+        onChange={(e) => onSelectedOption(e.target.value)}
+        label="Select Class"
+        required="true"
+      >
+        <MenuItem value="">
+          <em>None</em>
+        </MenuItem>
+        {options.map((cls, index) => (
+          <MenuItem key={index} value={cls}>
+            {cls}
+          </MenuItem>
         ))}
-      </select>
-      <input 
-        type="text" 
-        value={newClass} 
-        onChange={(e) => setNewClass(e.target.value)} 
-        placeholder="Add new class"
-      />
-      <button onClick={addClass}>Add Class</button>
-    </div>
+      </Select>
+    </FormControl>
   );
 };
 
