@@ -1,37 +1,44 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
-import SelectComponent from "./SelectComponent";
-import { StudentContext } from "../store/studentcontext";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState } from 'react';
+import { Container, Grid, Typography } from '@mui/material';
+import ClassSelector from './ClassSelector';
+import ClassSubjectTable from './ClassSubjectTable';
 
 const TeacherScreen = () => {
-  const { studentsInfo, setStudentsInfo } = useContext(StudentContext);
-  
-  const fetchStudents = async () => {
-    const response = await axios
-      .get("/studentsinfo");
-      setStudentsInfo(response.data)
-      return response.data;
+  const [selectedClass, setSelectedClass] = useState('');
+  const classes = [
+    "Class I",
+    "Class II",
+    "Class III",
+    "Class IV",
+    "Class V",
+    "Class VI",
+    "Class VII",
+    "Class VIII",
+    "Class IX",
+    "Class X",
+    "Class XI",
+    "Class XII",
+  ];
+
+  const handleSelectClass = (cls) => {
+    setSelectedClass(cls);
   };
 
-  const { data, error, isLoading, isError } = useQuery({
-    queryKey: ['data'],
-    queryFn: fetchStudents,
-  });
-
-  // useEffect(() => {
-  //   data && setStudentsInfo(data);
-  // }, [data]);
-
   return (
-    <div>
-      <h1>Teacher Screen</h1>
-     
-        <SelectComponent label="Select your Name" options={data?.studentInfo} />
-        <SelectComponent label="Select your Name" options={data?.studentInfo} />
-    </div>
+    <Container>
+      <Grid container spacing={3}>
+      
+        <Grid item xs={12}>
+        <Typography variant="h7" gutterBottom>
+        Class Selection
+      </Typography>
+          <ClassSelector options={classes} label={"select class"} onSelectedOption={handleSelectClass} />
+        </Grid>
+        <Grid item xs={12}>
+        <ClassSubjectTable selectedClass={selectedClass} />
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
