@@ -3,8 +3,8 @@ import React from 'react';
 const StudentScreen = () => {
   return (
     <div>
-      <h2>Hello</h2>
-      <p>This is Screen 2</p>
+      <h2>Student screen</h2>
+      <p>Work in progress</p>
     </div>
   );
 };
