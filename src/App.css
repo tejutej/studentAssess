@@ -1,0 +1,92 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.form-select-element {
+  margin: 6px 0 !important;
+  color: #666 !important;
+  font-size: 13px !important;
+  width: 100% !important;
+  border: none !important;
+}
+
+.MuiList-root {
+  padding: 2px 0 !important;
+}
+
+.MuiList-root li {
+  font-size: 13px !important;
+}
+
+.MuiTabs-root {
+  margin-top: -16px;
+}
+
+.MuiTabs-root .tab-title {
+  color: #a4a4a4;
+  padding: 4px 8px 0;
+  font-size: 13px;
+}
+
+.MuiTabs-root .tab-title.Mui-selected {
+  color: #5f80a3;
+}
+
+.MuiTabs-root .MuiTabs-indicator {
+  background: #5f80a3;
+  height: 1px;
+}
+
+.react-tooltip {
+  font-size: 13px !important;
+  opacity: 1 !important;
+  background: #5f80a3 !important;
+}
+
+.react-tooltip a {
+  color: white;
+}
+
